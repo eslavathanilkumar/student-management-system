@@ -5,15 +5,12 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
-- task: UsePythonVersion@0
+- task: Docker@2
+  displayName: Build and Push Image
   inputs:
-    versionSpec: '3.10'
-
-- script: |
-    python -m pip install --upgrade pip
-    pip install -r requirements.txt
-  displayName: 'Install dependencies'
-
-- script: |
-    python -m py_compile app.py
-  displayName: 'Compile Python file'
+    containerRegistry: 'DockerHubServiceConnection'
+    repository: 'anileslavath/student-app'
+    command: 'buildAndPush'
+    Dockerfile: '**/Dockerfile'
+    tags: |
+      v1
